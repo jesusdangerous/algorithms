@@ -1,78 +1,76 @@
 package lab1.TenthTask;
 
-import java.io.*;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class TenthTask {
-//    static int N, K, M;
-//    static boolean[][] friends;
-//    static int maxCohesion = -1;
-//    static int[] bestTeam;
-//
-//    public static String findFirstTeam(String file) throws IOException {
-//        BufferedReader br = new BufferedReader(new FileReader(file));
-//        String result = solve(br);
-//        br.close();
-//        return result;
-//    }
-//
-//    private static String solve(BufferedReader br) throws IOException {
-//        StringTokenizer st = new StringTokenizer(br.readLine());
-//        N = Integer.parseInt(st.nextToken());
-//        K = Integer.parseInt(st.nextToken());
-//        M = Integer.parseInt(st.nextToken());
-//
-//        friends = new boolean[N][N];
-//        for (int i = 0; i < M; i++) {
-//            st = new StringTokenizer(br.readLine());
-//            int a = Integer.parseInt(st.nextToken()) - 1;
-//            int b = Integer.parseInt(st.nextToken()) - 1;
-//            friends[a][b] = friends[b][a] = true;
-//        }
-//
-//        bestTeam = new int[K];
-//        int[] team = new int[K];
-//        generateCombinations(0, 0, team);
-//
-//        StringBuilder result = new StringBuilder();
-//        for (int i = 0; i < K; i++) {
-//            result.append(bestTeam[i] + 1).append(" ");
-//        }
-//        return result.toString().trim();
-//    }
-//
-//    private static void generateCombinations(int start, int depth, int[] team) {
-//        if (depth == K) {
-//            evaluateTeam(team);
-//            return;
-//        }
-//
-//        for (int i = start; i < N; i++) {
-//            team[depth] = i;
-//            generateCombinations(i + 1, depth + 1, team);
-//        }
-//    }
-//
-//    private static void evaluateTeam(int[] team1) {
-//        boolean[] inTeam1 = new boolean[N];
-//        for (int i : team1) inTeam1[i] = true;
-//
-//        int cohesion1 = 0, cohesion2 = 0;
-//        for (int i = 0; i < N; i++) {
-//            for (int j = i + 1; j < N; j++) {
-//                if (friends[i][j]) {
-//                    if (inTeam1[i] == inTeam1[j]) {
-//                        if (inTeam1[i]) cohesion1++;
-//                        else cohesion2++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        int totalCohesion = cohesion1 + cohesion2;
-//        if (totalCohesion > maxCohesion) {
-//            maxCohesion = totalCohesion;
-//            System.arraycopy(team1, 0, bestTeam, 0, K);
-//        }
-//    }
+    public static void findTeam(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] bitCount = new int[1 << 12];
+        for (int code = 0; code < 1 << 12; code++) {
+            int t = code;
+            int count = 0;
+            while (t > 0) {
+                count += t & 1;
+                t >>= 1;
+            }
+            bitCount[code] = count;
+        }
+
+        int n = scanner.nextInt();
+        int size1 = scanner.nextInt();
+        int nFriends = scanner.nextInt();
+
+        int[] friends = new int[24];
+
+        for (int i = 0; i < nFriends; i++) {
+            int a = scanner.nextInt() - 1;
+            int b = scanner.nextInt() - 1;
+            friends[Math.min(a, b)] |= 1 << Math.max(a, b);
+        }
+
+        int codeCount;
+        if (size1 == n - size1) {
+            codeCount = 1 << (n - 1);
+        } else {
+            codeCount = 1 << n;
+        }
+
+        int bestCode = -1;
+        int bestSum = -1;
+
+        for (int code = (1 << size1) - 1; code < codeCount; code = nextBitPermutation(code)) {
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                int friendsCode = (~(code << (31 - i) >> 31) ^ code) & friends[i];
+                sum += bitCount[friendsCode >> 12] + bitCount[friendsCode & ((1 << 12) - 1)];
+            }
+            if (sum > bestSum) {
+                bestCode = code;
+                bestSum = sum;
+            }
+        }
+
+        boolean first = true;
+        for (int i = 0; i < n; i++) {
+            if (((bestCode >> i) & 1) != 0) {
+                if (first) {
+                    first = false;
+                } else {
+                    System.out.print(" ");
+                }
+                System.out.print(i + 1);
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static int nextBitPermutation(int n) {
+        int tail1 = n & ~(n - 1);
+        int resultHead = n + tail1;
+        int oldOnes = n & ~resultHead;
+        int newOnes = oldOnes / tail1 / 2;
+        return resultHead + newOnes;
+    }
 }
