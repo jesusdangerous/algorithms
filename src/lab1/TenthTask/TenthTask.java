@@ -3,7 +3,7 @@ package lab1.TenthTask;
 import java.util.Scanner;
 
 public class TenthTask {
-    public static void findTeam(String[] args) {
+    public static String findTeam(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         int[] bitCount = new int[1 << 12];
@@ -51,19 +51,19 @@ public class TenthTask {
             }
         }
 
+        StringBuilder result = new StringBuilder();
         boolean first = true;
         for (int i = 0; i < n; i++) {
             if (((bestCode >> i) & 1) != 0) {
-                if (first) {
-                    first = false;
-                } else {
-                    System.out.print(" ");
+                if (!result.isEmpty()) {
+                    result.append(" ");
                 }
-                System.out.print(i + 1);
+                result.append(i + 1);
             }
         }
 
         scanner.close();
+        return result.toString();
     }
 
     private static int nextBitPermutation(int n) {
