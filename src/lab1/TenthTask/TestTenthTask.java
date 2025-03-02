@@ -1,6 +1,5 @@
 package lab1.TenthTask;
 
-import lab1.SeventhTask.SeventhTask;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

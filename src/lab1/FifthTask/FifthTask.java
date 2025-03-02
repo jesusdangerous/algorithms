@@ -66,7 +66,7 @@ public class FifthTask {
 
     private static void sum(int[] a, int[] b, int[] c) {
         int carry = 0;
-        c[0] = a[0] > b[0] ? a[0] : b[0];
+        c[0] = Math.max(a[0], b[0]);
 
         for (int i = 1; i <= c[0]; i++) {
             c[i] = a[i] + b[i] + carry;

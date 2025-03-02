@@ -23,9 +23,7 @@ public class SeventhTask {
                 }
             }
             int sumSecondHeap = totalSum - sumFirstHeap;
-            minDifference = (minDifference > abs(sumFirstHeap - sumSecondHeap))
-                    ? abs(sumFirstHeap - sumSecondHeap)
-                    : minDifference;
+            minDifference = Math.min(minDifference, abs(sumFirstHeap - sumSecondHeap));
         }
 
         return minDifference;
