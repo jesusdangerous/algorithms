@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class FifthTask {
     static class Point {
-        int x, y;
+        private final int x, y;
 
         Point(int x, int y) {
             this.x = x;
@@ -13,11 +13,11 @@ public class FifthTask {
         }
     }
 
-    static int cross(Point o, Point a, Point b) {
+    private static int cross(Point o, Point a, Point b) {
         return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
     }
 
-    static void mergeSort(Point[] points, int left, int right) {
+    private static void mergeSort(Point[] points, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
             mergeSort(points, left, mid);
@@ -26,7 +26,7 @@ public class FifthTask {
         }
     }
 
-    static void merge(Point[] points, int left, int mid, int right) {
+    private static void merge(Point[] points, int left, int mid, int right) {
         int n1 = mid - left + 1;
         int n2 = right - mid;
 
@@ -54,7 +54,7 @@ public class FifthTask {
         }
     }
 
-    static double perimeter(Point[] points) {
+    private static double perimeter(Point[] points) {
         ArrayList<Point> lower = new ArrayList<>();
         for (Point p : points) {
             while (lower.size() >= 2 && cross(lower.get(lower.size() - 2), lower.get(lower.size() - 1), p) <= 0) {

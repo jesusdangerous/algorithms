@@ -36,11 +36,11 @@ public class FourthTask {
         return result.toString().trim();
     }
 
-    static void customSort(ArrayList<Record> records, int[] priority) {
+    private static void customSort(ArrayList<Record> records, int[] priority) {
         quickSort(records, 0, records.size() - 1, priority);
     }
 
-    static void quickSort(ArrayList<Record> records, int low, int high, int[] priority) {
+    private static void quickSort(ArrayList<Record> records, int low, int high, int[] priority) {
         if (low < high) {
             int pi = partition(records, low, high, priority);
             quickSort(records, low, pi - 1, priority);
@@ -48,7 +48,7 @@ public class FourthTask {
         }
     }
 
-    static int partition(ArrayList<Record> records, int low, int high, int[] priority) {
+    private static int partition(ArrayList<Record> records, int low, int high, int[] priority) {
         Record pivot = records.get(high);
         int i = low - 1;
 
@@ -62,13 +62,13 @@ public class FourthTask {
         return i + 1;
     }
 
-    static void swap(ArrayList<Record> records, int i, int j) {
+    private static void swap(ArrayList<Record> records, int i, int j) {
         Record temp = records.get(i);
         records.set(i, records.get(j));
         records.set(j, temp);
     }
 
-    static int compare(Record r1, Record r2, int[] priority) {
+    private static int compare(Record r1, Record r2, int[] priority) {
         for (int index : priority) {
             if (r1.attributes[index] != r2.attributes[index]) {
                 return Integer.compare(r1.attributes[index], r2.attributes[index]);

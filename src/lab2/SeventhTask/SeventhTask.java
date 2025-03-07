@@ -2,24 +2,22 @@ package lab2.SeventhTask;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
 
 public class SeventhTask {
     private static final int CHUNK_SIZE = 100_000;
 
-    public static void main(String[] args) throws IOException {
-        externalSort("input.txt", "output.txt");
+    public static void getSortedFile(String input, String output) throws IOException {
+        externalSort(input, output);
     }
 
-    public static void externalSort(String inputFile, String outputFile) throws IOException {
-        List<File> sortedChunks = splitAndSortChunks(inputFile);
+    private static void externalSort(String inputFile, String outputFile) throws IOException {
+        ArrayList<File> sortedChunks = splitAndSortChunks(inputFile);
         mergeChunks(sortedChunks, outputFile);
     }
 
-    private static List<File> splitAndSortChunks(String inputFile) throws IOException {
-        List<File> chunkFiles = new ArrayList<>();
-        List<String> chunk = new ArrayList<>();
+    private static ArrayList<File> splitAndSortChunks(String inputFile) throws IOException {
+        ArrayList<File> chunkFiles = new ArrayList<>();
+        ArrayList<String> chunk = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String line;
@@ -37,9 +35,9 @@ public class SeventhTask {
         return chunkFiles;
     }
 
-    private static File writeSortedChunk(List<String> chunk) throws IOException {
-        chunk.sort(String::compareTo);
-        File tempFile = File.createTempFile("sorted_chunk_", ".txt");
+    private static File writeSortedChunk(ArrayList<String> chunk) throws IOException {
+        quickSort(chunk, 0, chunk.size() - 1);
+        File tempFile = File.createTempFile("sorted_chunk", ".txt");
         tempFile.deleteOnExit();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
@@ -51,8 +49,35 @@ public class SeventhTask {
         return tempFile;
     }
 
-    private static void mergeChunks(List<File> chunkFiles, String outputFile) throws IOException {
-        PriorityQueue<FileBuffer> pq = new PriorityQueue<>();
+    private static void quickSort(ArrayList<String> arr, int left, int right) {
+        if (left < right) {
+            int pivotIndex = partition(arr, left, right);
+            quickSort(arr, left, pivotIndex - 1);
+            quickSort(arr, pivotIndex + 1, right);
+        }
+    }
+
+    private static int partition(ArrayList<String> arr, int left, int right) {
+        String pivot = arr.get(right);
+        int i = left - 1;
+        for (int j = left; j < right; j++) {
+            if (arr.get(j).compareTo(pivot) <= 0) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, right);
+        return i + 1;
+    }
+
+    private static void swap(ArrayList<String> arr, int i, int j) {
+        String temp = arr.get(i);
+        arr.set(i, arr.get(j));
+        arr.set(j, temp);
+    }
+
+    private static void mergeChunks(ArrayList<File> chunkFiles, String outputFile) throws IOException {
+        CustomPriorityQueue<FileBuffer> pq = new CustomPriorityQueue<>();
         for (File file : chunkFiles) {
             FileBuffer buffer = new FileBuffer(file);
             if (!buffer.isEmpty()) {
@@ -72,10 +97,6 @@ public class SeventhTask {
                     buffer.close();
                 }
             }
-        }
-
-        for (FileBuffer buffer : pq) {
-            buffer.close();
         }
     }
 
@@ -106,6 +127,60 @@ public class SeventhTask {
         @Override
         public void close() throws IOException {
             reader.close();
+        }
+    }
+
+    private static class CustomPriorityQueue<T extends Comparable<T>> {
+        private final ArrayList<T> heap = new ArrayList<>();
+
+        public void add(T item) {
+            heap.add(item);
+            heapifyUp();
+        }
+
+        public T poll() {
+            if (heap.isEmpty()) return null;
+            T root = heap.getFirst();
+            T last = heap.removeLast();
+            if (!heap.isEmpty()) {
+                heap.set(0, last);
+                heapifyDown();
+            }
+            return root;
+        }
+
+        public boolean isEmpty() {
+            return heap.isEmpty();
+        }
+
+        private void heapifyUp() {
+            int index = heap.size() - 1;
+            while (index > 0) {
+                int parentIndex = (index - 1) / 2;
+                if (heap.get(index).compareTo(heap.get(parentIndex)) >= 0) break;
+                swap(index, parentIndex);
+                index = parentIndex;
+            }
+        }
+
+        private void heapifyDown() {
+            int index = 0;
+            while (2 * index + 1 < heap.size()) {
+                int smallerChild = 2 * index + 1;
+                int rightChild = smallerChild + 1;
+                if (rightChild < heap.size() && heap.get(rightChild).compareTo(heap.get(smallerChild)) < 0) {
+                    smallerChild = rightChild;
+                }
+                if (heap.get(index).compareTo(heap.get(smallerChild)) <= 0) break;
+                swap(index, smallerChild);
+                index = smallerChild;
+            }
+        }
+
+        private void swap(int i, int j) {
+            T temp = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, temp);
         }
     }
 }
