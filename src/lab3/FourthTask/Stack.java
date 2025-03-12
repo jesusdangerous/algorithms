@@ -14,7 +14,7 @@ public class Stack<T> {
 
     @SuppressWarnings("unchecked")
     public Stack() {
-        capacity = 107;
+        capacity = 1000;
         stack = (T[]) new Object[capacity];
         top = -1;
     }
@@ -42,5 +42,9 @@ public class Stack<T> {
             throw new StackException();
         }
         return stack[top];
+    }
+
+    public int size() {
+        return top + 1;
     }
 }
