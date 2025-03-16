@@ -27,6 +27,8 @@ public class TestFourthTask {
         double memoryUsedMb = memoryUsed / (1024.0 * 1024.0);
 
         System.out.println("Тест 1");
+        System.out.println("Прошло времени в мс: " + elapsed);
+        System.out.println("Использовано памяти в Мб: " + memoryUsedMb);
         System.out.println();
 
         Assertions.assertEquals(3, a);

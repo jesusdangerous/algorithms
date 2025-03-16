@@ -17,7 +17,7 @@ public class TenthTask {
         }
     }
 
-    public static void solve(String[] args) throws StackException {
+    public static void main(String[] args) throws StackException {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
 
