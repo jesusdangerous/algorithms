@@ -3,7 +3,7 @@ package lab4.FirstTask;
 import java.util.Scanner;
 
 public class FirstTask {
-    public static void main(String[] args) {
+    public static int getMaxLength(String[] args) {
         Scanner s = new Scanner(System.in);
 
         int n = s.nextInt();
@@ -18,8 +18,7 @@ public class FirstTask {
         }
 
         if (totalLength < k) {
-            System.out.println(0);
-            return;
+            return 0;
         }
 
         int left = 0;
@@ -39,6 +38,6 @@ public class FirstTask {
             }
         }
 
-        System.out.println(left);
+        return left;
     }
 }
