@@ -22,7 +22,6 @@ public class TenthTask {
             calculateHashes();
         }
 
-        // Вычисление степеней P
         private void pPowersCalc() {
             pPowers[0] = 1;
             for (int i = 1; i < tiles.length; i++) {
@@ -30,8 +29,6 @@ public class TenthTask {
             }
         }
 
-        // Вычисление префиксных хешей
-        // Вычисление префиксных хешей
         private void calculateHashes() {
             for (int i = 0; i < tiles.length; i++) {
                 if (i > 0) {
@@ -44,8 +41,6 @@ public class TenthTask {
             }
         }
 
-
-        // Извлечение хеша подстроки
         private long extractSubstringHash(int leftInd, int rightInd, boolean reverse) {
             long[] currentPrefix = reverse ? reverseHashPrefix : hashPrefix;
             long substringHash = currentPrefix[rightInd];
@@ -55,7 +50,6 @@ public class TenthTask {
             return (substringHash + MOD) % MOD;
         }
 
-        // Сравнение подстрок
         public boolean compareSubstrings(int left1, int right1, int left2, int right2) {
             long part1 = (extractSubstringHash(left1, right1, false) * pPowers[left2]) % MOD;
             long part2 = (extractSubstringHash(left2, right2, true) * pPowers[left1]) % MOD;
@@ -63,7 +57,6 @@ public class TenthTask {
         }
     }
 
-    // Реверс списка
     public static void listReverser(List<Integer> list) {
         int cur1 = 0;
         int cur2 = list.size() - 1;
@@ -74,7 +67,6 @@ public class TenthTask {
         }
     }
 
-    // Основной алгоритм
     public static List<Integer> calculate(SubstringHelper subHelper, int[] tiles) {
         List<Integer> result = new ArrayList<>();
         int mirrorIndex = tiles.length / 2;
