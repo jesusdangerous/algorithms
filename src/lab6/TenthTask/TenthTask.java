@@ -1,6 +1,6 @@
 package lab6.TenthTask;
 
-import java.util.*;
+import java.util.Scanner;
 
 public class TenthTask {
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class TenthTask {
         int[] indexes = new int[N];
 
         for (int i = 0; i < N; i++) {
-            String line = scanner.nextLine();
+            String line = scanner.nextLine().trim();
             String[] parts = line.split("\\s+");
             double left = Double.parseDouble(parts[0]);
             double right = Double.parseDouble(parts[1]);
@@ -26,10 +26,12 @@ public class TenthTask {
         quickSort(sheets, indexes, 0, N - 1);
         double result = solve(sheets, constSheets, indexes, N);
 
-        System.out.printf("%.3f\n", result);
+        String str = String.format("%.3f", result).replace(",", ".");
+        System.out.println(str);
+
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            builder.append((indexes[i] + 1) + " ");
+            builder.append((indexes[i] + 1)).append(" ");
         }
         System.out.println(builder.toString().trim());
     }
@@ -65,12 +67,20 @@ public class TenthTask {
             double leftTime = sheets[leftIndex][0];
             double rightTime = sheets[leftIndex][1];
 
+            if (startLeftTime == 0.0 || startRightTime == 0.0) {
+                return currentTime;
+            }
+
             double s = 1.0;
-            double leftV = s / startLeftTime;
-            double rightV = s / startRightTime;
+            double leftV = 1.0 / startLeftTime;
+            double rightV = 1.0 / startRightTime;
             double overallV = leftV + rightV;
+
             s -= (startLeftTime - leftTime) / startLeftTime;
             s -= (startRightTime - rightTime) / startRightTime;
+
+            if (s < 0.0)
+                s = 0.0;
 
             currentTime += s / overallV;
         }
@@ -80,30 +90,27 @@ public class TenthTask {
 
     public static void quickSort(double[][] arr, int[] ind, int low, int high) {
         if (low < high) {
-            int mid = partition(arr, ind, low, high);
-            quickSort(arr, ind, low, mid - 1);
-            quickSort(arr, ind, mid + 1, high);
+            int pi = partition(arr, ind, low, high);
+            quickSort(arr, ind, low, pi - 1);
+            quickSort(arr, ind, pi + 1, high);
         }
     }
 
     public static int partition(double[][] arr, int[] ind, int low, int high) {
         double pivot = arr[ind[high]][0] / arr[ind[high]][1];
         int i = low - 1;
-
         for (int j = low; j < high; j++) {
-            double leftDiff = arr[ind[j]][0] / arr[ind[j]][1];
-            if (leftDiff >= pivot) {
+            double currentRatio = arr[ind[j]][0] / arr[ind[j]][1];
+            if (currentRatio >= pivot) {
                 i++;
                 int temp = ind[i];
                 ind[i] = ind[j];
                 ind[j] = temp;
             }
         }
-
         int temp = ind[i + 1];
         ind[i + 1] = ind[high];
         ind[high] = temp;
-
         return i + 1;
     }
 }

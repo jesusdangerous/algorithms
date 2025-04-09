@@ -85,7 +85,6 @@ public class TenthTask {
         return result;
     }
 
-    // Основной метод
     public static List<Integer> getNumbers(int[] tiles) {
         SubstringHelper subHelper = new SubstringHelper(tiles);
         return calculate(subHelper, tiles);
