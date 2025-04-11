@@ -18,7 +18,7 @@ public class FirstTask {
 
         public int find(int u) {
             if (parent[u] != u) {
-                parent[u] = find(parent[u]); // сжатие пути
+                parent[u] = find(parent[u]);
             }
             return parent[u];
         }
@@ -28,7 +28,6 @@ public class FirstTask {
             int rootV = find(v);
 
             if (rootU != rootV) {
-                // объединение по рангу
                 if (rank[rootU] > rank[rootV]) {
                     parent[rootV] = rootU;
                 } else if (rank[rootU] < rank[rootV]) {
@@ -54,7 +53,7 @@ public class FirstTask {
 
         @Override
         public int compareTo(Edge other) {
-            return Integer.compare(other.weight, this.weight); // сортировка по убыванию веса
+            return Integer.compare(other.weight, this.weight);
         }
     }
 
@@ -71,14 +70,14 @@ public class FirstTask {
             edges.add(new Edge(u, v, w));
         }
 
-        edges.sort(Comparator.naturalOrder()); // сортируем рёбра по убыванию веса
+        edges.sort(Comparator.naturalOrder());
 
         UnionFind uf = new UnionFind(n);
         int totalWeight = 0;
         int edgesUsed = 0;
 
         for (Edge edge : edges) {
-            if (uf.union(edge.u - 1, edge.v - 1)) { // индексы начинаются с 1, а в UnionFind с 0
+            if (uf.union(edge.u - 1, edge.v - 1)) {
                 totalWeight += edge.weight;
                 edgesUsed++;
                 if (edgesUsed == n - 1) {
@@ -87,7 +86,6 @@ public class FirstTask {
             }
         }
 
-        // Если не все вершины подключены, то граф несвязен
         if (edgesUsed != n - 1) {
             return "Oops! I did it again";
         }

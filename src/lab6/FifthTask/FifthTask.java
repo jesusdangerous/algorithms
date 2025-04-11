@@ -1,28 +1,20 @@
 package lab6.FifthTask;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int numerator = scanner.nextInt();
-        int denominator = scanner.nextInt();
-
+public class FifthTask {
+    public static String getDecimalRepresentation(int numerator, int denominator) {
         StringBuilder result = new StringBuilder();
 
         result.append(numerator / denominator);
         numerator %= denominator;
 
         if (numerator == 0) {
-            System.out.println(result);
-            return;
+            return result.toString();
         }
 
         result.append(".");
 
-        Map<Integer, Integer> remainderIndexMap = new HashMap<>();
+        HashMap<Integer, Integer> remainderIndexMap = new HashMap<>();
         StringBuilder decimalPart = new StringBuilder();
         int index = 0;
         boolean repeating = false;
@@ -51,6 +43,6 @@ public class Main {
             result.append(decimalPart);
         }
 
-        System.out.println(result);
+        return result.toString();
     }
 }

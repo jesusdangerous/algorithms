@@ -12,13 +12,12 @@ public class SeventhTask {
         }
     }
 
-    public static void main(String[] args) {
+    public static String getAllWays(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();  // Количество вершин
-        int M = sc.nextInt();  // Количество рёбер
-        int S = sc.nextInt();  // Стартовая вершина
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int S = sc.nextInt();
 
-        // Чтение рёбер
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < M; i++) {
             int u = sc.nextInt();
@@ -27,12 +26,10 @@ public class SeventhTask {
             edges.add(new Edge(u, v, w));
         }
 
-        // Алгоритм Беллмана-Форда
         int[] dist = new int[N];
-        Arrays.fill(dist, Integer.MAX_VALUE);  // Инициализация расстояний как бесконечность
-        dist[S] = 0;  // Расстояние до стартовой вершины равно 0
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[S] = 0;
 
-        // Основной цикл Беллмана-Форда
         for (int i = 0; i < N - 1; i++) {
             for (Edge edge : edges) {
                 if (dist[edge.u] != Integer.MAX_VALUE && dist[edge.u] + edge.weight < dist[edge.v]) {
@@ -41,21 +38,21 @@ public class SeventhTask {
             }
         }
 
-        // Проверка на отрицательные циклы
         for (Edge edge : edges) {
             if (dist[edge.u] != Integer.MAX_VALUE && dist[edge.u] + edge.weight < dist[edge.v]) {
-                System.out.println("IMPOSSIBLE");
-                return;
+                return "IMPOSSIBLE";
             }
         }
 
-        // Вывод результата
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < N; i++) {
             if (dist[i] == Integer.MAX_VALUE) {
-                System.out.print("UNREACHABLE ");
+                builder.append("UNREACHABLE ");
             } else {
-                System.out.print(dist[i] + " ");
+                builder.append(dist[i]).append(" ");
             }
         }
+
+        return builder.toString().trim();
     }
 }

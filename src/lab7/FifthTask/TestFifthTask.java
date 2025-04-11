@@ -1,4 +1,4 @@
-package lab7.SeventhTask;
+package lab7.FifthTask;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-public class TestSeventhTask {
+public class TestFifthTask {
     @Test
     void test1() {
         Runtime runtime = Runtime.getRuntime();
@@ -21,17 +21,18 @@ public class TestSeventhTask {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        String input = "4 5 0\n" +
-                "0 1 100\n" +
-                "1 2 100\n" +
-                "2 0 -100\n" +
-                "0 2 1000\n" +
-                "3 1 15";
+        String input = "6 6\n" +
+                ".++++.\n" +
+                ".....+\n" +
+                "+..+..\n" +
+                "..++..\n" +
+                ".+....\n" +
+                ".+...+";
 
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        String answer = SeventhTask.getAllWays(new String[]{});
+        int answer = FifthTask.countCarpets(new String[]{});
 
         System.setOut(originalOut);
         System.setIn(originalIn);
@@ -48,10 +49,11 @@ public class TestSeventhTask {
         System.out.println("Использовано памяти в Мб: " + memoryUsedMb);
         System.out.println();
 
-        Assertions.assertEquals("0 100 200 UNREACHABLE", answer);
+        Assertions.assertEquals(6, answer);
         Assertions.assertTrue(elapsed < 2000, "Метод выполняется слишком долго: " + elapsed + " мс");
         Assertions.assertTrue(memoryUsedMb < 64, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
     }
+
     @Test
     void test2() {
         Runtime runtime = Runtime.getRuntime();
@@ -64,15 +66,22 @@ public class TestSeventhTask {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        String input = "3 3 0\n" +
-                "0 1 5\n" +
-                "1 2 8\n" +
-                "2 0 -20";
+        String input = "10 10\n" +
+                ".++..++.++\n" +
+                "+.+....+++\n" +
+                "........++\n" +
+                "+....++...\n" +
+                "+++.+++.++\n" +
+                ".....+.+..\n" +
+                "+.+.++++++\n" +
+                "+.++.++..+\n" +
+                "++++...++.\n" +
+                "+...+..+..";
 
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        String answer = SeventhTask.getAllWays(new String[]{});
+        int answer = FifthTask.countCarpets(new String[]{});
 
         System.setOut(originalOut);
         System.setIn(originalIn);
@@ -89,9 +98,52 @@ public class TestSeventhTask {
         System.out.println("Использовано памяти в Мб: " + memoryUsedMb);
         System.out.println();
 
-        Assertions.assertEquals("IMPOSSIBLE", answer);
+        Assertions.assertEquals(10, answer);
         Assertions.assertTrue(elapsed < 2000, "Метод выполняется слишком долго: " + elapsed + " мс");
         Assertions.assertTrue(memoryUsedMb < 64, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
     }
 
+    @Test
+    void test3() {
+        Runtime runtime = Runtime.getRuntime();
+        runtime.gc();
+
+        long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
+        long start = System.nanoTime();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+
+        String input = "5 5\n" +
+                "..+..\n" +
+                ".+++.\n" +
+                ".+..+.\n" +
+                "+.+.+\n" +
+                "+++++";
+
+        InputStream originalIn = System.in;
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        int answer = FifthTask.countCarpets(new String[]{});
+
+        System.setOut(originalOut);
+        System.setIn(originalIn);
+
+        long finish = System.nanoTime();
+        double elapsed = (finish - start) / 1_000_000.0;
+
+        long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
+        long memoryUsed = memoryAfter - memoryBefore;
+        double memoryUsedMb = memoryUsed / (1024.0 * 1024.0);
+
+        System.out.println("Тест 3");
+        System.out.println("Прошло времени в мс: " + elapsed);
+        System.out.println("Использовано памяти в Мб: " + memoryUsedMb);
+        System.out.println();
+
+        Assertions.assertEquals(2, answer);
+        Assertions.assertTrue(elapsed < 2000, "Метод выполняется слишком долго: " + elapsed + " мс");
+        Assertions.assertTrue(memoryUsedMb < 64, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
+    }
 }

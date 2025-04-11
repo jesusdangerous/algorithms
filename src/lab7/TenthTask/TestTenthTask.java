@@ -1,4 +1,4 @@
-package lab6.TenthTask;
+package lab7.TenthTask;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.List;
 
 public class TestTenthTask {
     @Test
@@ -22,16 +21,17 @@ public class TestTenthTask {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        String input = "4\n" +
-                "1 2\n" +
-                "1 2\n" +
-                "0.5 1.5\n" +
-                "7 3.5";
+        String input = "4 2\n" +
+                "1 4\n" +
+                "0 2 4 3\n" +
+                "2 0 5 2\n" +
+                "4 5 0 1\n" +
+                "3 2 1 0";
 
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        List<String> answer = TenthTask.designPartition(new String[]{});
+        int answer = TenthTask.getMinCost(new String[]{});
 
         System.setOut(originalOut);
         System.setIn(originalIn);
@@ -48,8 +48,8 @@ public class TestTenthTask {
         System.out.println("Использовано памяти в Мб: " + memoryUsedMb);
         System.out.println();
 
-        Assertions.assertEquals(List.of("6.000", "4 2 1 3"), answer);
+        Assertions.assertEquals(3, answer);
         Assertions.assertTrue(elapsed < 1000, "Метод выполняется слишком долго: " + elapsed + " мс");
-        Assertions.assertTrue(memoryUsedMb < 16, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
+        Assertions.assertTrue(memoryUsedMb < 256, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
     }
 }

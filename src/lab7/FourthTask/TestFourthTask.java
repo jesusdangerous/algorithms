@@ -1,5 +1,6 @@
-package lab6.SeventhTask;
+package lab7.FourthTask;
 
+import lab7.FirstTask.FirstTask;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-public class TestSeventhTask {
+public class TestFourthTask {
     @Test
     void test1() {
         Runtime runtime = Runtime.getRuntime();
@@ -21,17 +22,15 @@ public class TestSeventhTask {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        String input = "5\n" +
-                "3 4\n" +
-                "1 5\n" +
-                "6 7\n" +
-                "4 5\n" +
-                "1 3";
+        String input = "3 5\n" +
+                "3 1 4 1 5\n" +
+                "9 2 6 5 3\n" +
+                "5 9 7 9 3";
 
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        int answer = SeventhTask.getMaxCount(new String[]{});
+        int answer = FourthTask.minEnergy(new String[]{});
 
         System.setOut(originalOut);
         System.setIn(originalIn);
@@ -48,9 +47,9 @@ public class TestSeventhTask {
         System.out.println("Использовано памяти в Мб: " + memoryUsedMb);
         System.out.println();
 
-        Assertions.assertEquals(3, answer);
-        Assertions.assertTrue(elapsed < 2000, "Метод выполняется слишком долго: " + elapsed + " мс");
-        Assertions.assertTrue(memoryUsedMb < 16, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
+        Assertions.assertEquals(5, answer);
+        Assertions.assertTrue(elapsed < 1000, "Метод выполняется слишком долго: " + elapsed + " мс");
+        Assertions.assertTrue(memoryUsedMb < 256, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
     }
 
     @Test
@@ -65,15 +64,14 @@ public class TestSeventhTask {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        String input = "3\n" +
-                "1 3\n" +
-                "4 6\n" +
-                "7 10";
+        String input = "2 2\n" +
+                "1 1\n" +
+                "1 1000";
 
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        int answer = SeventhTask.getMaxCount(new String[]{});
+        int answer = FourthTask.minEnergy(new String[]{});
 
         System.setOut(originalOut);
         System.setIn(originalIn);
@@ -90,8 +88,8 @@ public class TestSeventhTask {
         System.out.println("Использовано памяти в Мб: " + memoryUsedMb);
         System.out.println();
 
-        Assertions.assertEquals(3, answer);
-        Assertions.assertTrue(elapsed < 2000, "Метод выполняется слишком долго: " + elapsed + " мс");
-        Assertions.assertTrue(memoryUsedMb < 16, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
+        Assertions.assertEquals(999, answer);
+        Assertions.assertTrue(elapsed < 1000, "Метод выполняется слишком долго: " + elapsed + " мс");
+        Assertions.assertTrue(memoryUsedMb < 256, "Метод потребляет слишком много памяти: " + memoryUsedMb + " Мб");
     }
 }

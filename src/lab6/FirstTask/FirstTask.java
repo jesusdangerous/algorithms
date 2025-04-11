@@ -13,12 +13,12 @@ public class FirstTask {
         }
     }
 
-    public MaxSumRange getMaxSumRange(int[] arr) {
+    public static MaxSumRange getMaxSumRange(int[] arr) {
         int currSum = 0;
         int startIndex = 0;
         MaxSumRange maxSumRange = null;
 
-        for (int endIndex = 0; startIndex < arr.length; endIndex++) {
+        for (int endIndex = 0; endIndex < arr.length; endIndex++) {
             currSum += arr[endIndex];
 
             if (maxSumRange == null || currSum > maxSumRange.maxSum) {

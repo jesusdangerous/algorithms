@@ -1,9 +1,10 @@
 package lab6.TenthTask;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class TenthTask {
-    public static void main(String[] args) {
+    public static List<String> designPartition(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int N = scanner.nextInt();
         scanner.nextLine();
@@ -26,14 +27,12 @@ public class TenthTask {
         quickSort(sheets, indexes, 0, N - 1);
         double result = solve(sheets, constSheets, indexes, N);
 
-        String str = String.format("%.3f", result).replace(",", ".");
-        System.out.println(str);
-
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < N; i++) {
             builder.append((indexes[i] + 1)).append(" ");
         }
-        System.out.println(builder.toString().trim());
+
+        return List.of(String.format("%.3f", result).replace(",", "."), builder.toString().trim());
     }
 
     public static double solve(double[][] sheets, double[][] constSheets, int[] indexes, int N) {
