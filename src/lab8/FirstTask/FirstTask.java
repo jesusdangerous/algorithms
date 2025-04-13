@@ -3,7 +3,7 @@ package lab8.FirstTask;
 import java.util.*;
 
 public class FirstTask {
-    public static void main(String[] args) {
+    public static String getLargestCommonPrefix(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = Integer.parseInt(sc.nextLine());
         String[] packed = new String[n];
@@ -17,7 +17,7 @@ public class FirstTask {
             if (prefix.isEmpty()) break;
         }
 
-        System.out.println(prefix);
+        return prefix;
     }
 
     static String unpack(String s, String currentPrefix) {

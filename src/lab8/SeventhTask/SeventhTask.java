@@ -4,29 +4,27 @@ import java.io.*;
 import java.util.Scanner;
 
 public class SeventhTask {
-    public static void main(String[] args) throws IOException {
+    public static int findCyclicLineShift(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int N = Integer.parseInt(scanner.nextLine());
         String S = scanner.nextLine();
         String T = scanner.nextLine();
 
         if (S.length() != N || T.length() != N) {
-            System.out.println(-1);
-            return;
+            return -1;
         }
 
         if (S.equals(T)) {
-            System.out.println(0);
-            return;
+            return 0;
         }
 
         String combined = S + S;
         int index = kmpSearch(T, combined);
 
         if (index == -1) {
-            System.out.println(-1);
+            return -1;
         } else {
-            System.out.println((N - index) % N);
+            return (N - index) % N;
         }
     }
 

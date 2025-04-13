@@ -1,16 +1,12 @@
 package lab8.FourthTask;
 
-import java.util.*;
-
 public class FourthTask {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String s = scanner.nextLine();
+    public static String getSpell(String s) {
         String mostPowerful = "";
         int maxCount = 0;
 
         int n = s.length();
-        Map<String, Integer> countMap = new HashMap<>();
+        HashMap<String, Integer> countMap = new HashMap<>();
 
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j <= n; j++) {
@@ -24,6 +20,6 @@ public class FourthTask {
             }
         }
 
-        System.out.println(mostPowerful);
+        return mostPowerful;
     }
 }

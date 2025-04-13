@@ -1,10 +1,9 @@
 package lab8.TenthTask;
 
-import java.io.*;
 import java.util.*;
 
 public class TenthTask {
-    public static void main(String[] args) throws IOException {
+    public static List<String> solveLastJackWord(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String original = scanner.nextLine();
         String jackWord = scanner.nextLine();
@@ -22,10 +21,12 @@ public class TenthTask {
             positions.add(pos + 1);
         }
 
+
+        List<String> answer = new ArrayList<>();
         if (pos != -1) {
-            System.out.println("Yes");
+            answer.add("Yes");
         } else {
-            System.out.println("No");
+            answer.add("No");
             StringBuilder result = new StringBuilder();
 
             for (int i = positions.size() - 1; i > 0; i--) {
@@ -33,8 +34,10 @@ public class TenthTask {
             }
             result.append(jackWord.substring(positions.get(0)));
 
-            System.out.println(result.toString());
+            answer.add(result.toString());
         }
+
+        return answer;
     }
 
     private static int[] computePrefixFunction(String s) {
